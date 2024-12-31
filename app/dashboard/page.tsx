@@ -1,3 +1,4 @@
+"use client"
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   Breadcrumb,
@@ -13,8 +14,19 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import {useUserStore} from "@/stores/use-user-store";
+import Link from "next/link";
 
 export default function Page() {
+
+  const {token} = useUserStore();
+
+  if (!token) {
+    return <div>Please login...
+      <Link href={"/login"}>Login</Link>
+    </div>;
+  }
+
   return (
     <SidebarProvider>
       <AppSidebar />

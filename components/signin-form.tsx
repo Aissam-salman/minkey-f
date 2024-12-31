@@ -1,4 +1,5 @@
 "use client"
+
 import {cn} from "@/lib/utils"
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
@@ -10,6 +11,7 @@ import userService from "@/api/user.service";
 import {useToast} from "@/hooks/use-toast";
 import {ToastAction} from "@/components/ui/toast";
 import {useRouter} from "next/navigation";
+import {useUserStore} from "@/stores/use-user-store";
 
 
 const UserSchema = z.object({
@@ -24,6 +26,10 @@ export function SigninForm({
                            }: React.ComponentPropsWithoutRef<"form">) {
     const { toast } = useToast()
     const router = useRouter()
+    const { token, setToken } = useUserStore();
+
+
+
     const form = useForm<z.infer<typeof UserSchema>>({
         resolver: zodResolver(UserSchema),
         defaultValues: {
@@ -38,13 +44,13 @@ export function SigninForm({
         try {
            const resp = await userService.register(values);
 
-
             if (resp.data.token) {
-                // setToken(response.data.token);
+                setToken(resp.data.token);
                 toast({
                     title: "Sucessfully registered",
                     description: resp.data.token,
                 })
+                router.push("/dashboard")
             }
 
         } catch (error) {
