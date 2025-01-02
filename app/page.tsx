@@ -3,20 +3,21 @@ import ShineBorder from "@/components/ui/shine-border";
 import Safari from "@/components/ui/safari";
 import BoxReveal from "@/components/ui/box-reveal";
 import {NavBar} from "@/components/nav-bar";
+import {BentoSolved} from "@/components/BentoSolved";
 
 export default function Home() {
     return (
         <div
-            className="min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+            className="min-h-screen p-8 pb-20 gap-16 sm:px-20 font-[family-name:var(--font-geist-sans)]">
             <NavBar/>
             <main className="mx-auto overflow-hidden">
-                <section className="pb-16 ">
-                    <h1 className="bg-gradient-to-br from-green-950 via-green-900 to-green-700
-          text-transparent bg-clip-text font-medium py-6 text-5xl sm:text-6xl md:text-7xl
-          lg:text-8xl
-         "
+                <section className="flex flex-col items-center justify-center pb-16">
+                    <h1 className="bg-gradient-to-br from-green-950 via-green-800 to-green-200
+                                    text-transparent bg-clip-text font-medium py-6 text-3xl sm:text-4xl md:text-5xl
+                            lg:text-6xl"
                     >
-                        Découvrez un espace unique pour apprendre, collaborer et explorer.
+                        Découvrez un <span className={"font-bold"}>espace unique</span>
+                        <br/>pour apprendre, collaborer et explorer.
                     </h1>
                     <h2 className={"mb-12 text-lg text-gray-600 md:text-xl text-balance"}>
                         {/*faire list point*/}
@@ -29,24 +30,24 @@ export default function Home() {
                     <div className={"h-16"}></div>
                     <ShineBorder
                         borderWidth={2}
-                        className="relative flex w-full flex-col items-center -p-2 justify-center overflow-hidden rounded-lg
+                        className="relative flex w-[70%] flex-col items-center justify-center overflow-hidden rounded-lg
                      bg-background md:shadow-xl"
-                        color={["#245037", "#5a9974", "#ffffff"]}
+                        color={["#245037", "#5a9974", "#000"]}
                     >
                         <Safari url="minkey.fr" imageSrc={"home.png"} className="size-full"/>
                     </ShineBorder>
                 </section>
                 <section id="resolving" className={"py-20"}>
+                    <BentoSolved/>
                     <article>
                         <BoxReveal boxColor={"#245037"} duration={0.5}>
                             <p className="text-xl font-semibold">
-                                Trouver un réseau d'entrepreneurs solide
+
                             </p>
                         </BoxReveal>
                         <BoxReveal boxColor={"#245037"} duration={0.5}>
                             <h2 className="mt-[.5rem] text-[1rem]">
-                                Les entrepreneurs ont du mal à se connecter avec d'autres professionnels {" "}
-                                <span className="text-[#245037]">pertinents.</span>
+
                             </h2>
                         </BoxReveal>
                         <BoxReveal boxColor={"#245037"} duration={0.5}>
