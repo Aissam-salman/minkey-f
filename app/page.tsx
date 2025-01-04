@@ -1,11 +1,13 @@
+"use client"
 import {RainbowButton} from "@/components/ui/rainbow-button";
 import ShineBorder from "@/components/ui/shine-border";
 import Safari from "@/components/ui/safari";
-import BoxReveal from "@/components/ui/box-reveal";
 import {NavBar} from "@/components/nav-bar";
 import {BentoSolved} from "@/components/BentoSolved";
+import {useRouter} from "next/navigation";
 
 export default function Home() {
+    const router = useRouter();
     return (
         <div
             className="min-h-screen p-8 pb-20 gap-16 sm:px-20 font-[family-name:var(--font-geist-sans)]">
@@ -25,7 +27,7 @@ export default function Home() {
                         communauté et réservez des experts
                         en toute simplicité.
                     </h2>
-                    <RainbowButton>Rejoindre Minkey</RainbowButton>
+                    <RainbowButton onClick={() => router.push("/login")}>Rejoindre Minkey</RainbowButton>
                     {/*    app image */}
                     <div className={"h-16"}></div>
                     <ShineBorder
@@ -39,31 +41,6 @@ export default function Home() {
                 </section>
                 <section id="resolving" className={"py-20"}>
                     <BentoSolved/>
-                    <article>
-                        <BoxReveal boxColor={"#245037"} duration={0.5}>
-                            <p className="text-xl font-semibold">
-
-                            </p>
-                        </BoxReveal>
-                        <BoxReveal boxColor={"#245037"} duration={0.5}>
-                            <h2 className="mt-[.5rem] text-[1rem]">
-
-                            </h2>
-                        </BoxReveal>
-                        <BoxReveal boxColor={"#245037"} duration={0.5}>
-                            <div className="mt-6">
-                                <p>
-                                    -&gt;{" "}Minkey facilite la création d'un réseau d'
-                                    <span className="font-semibold text-[#245037]"> entrepreneurs</span> et de
-                                    <span className="font-semibold text-[#245037]"> prestataires</span>{" "}
-                                    pour des collaborations fructueuses.
-                                </p>
-                            </div>
-                        </BoxReveal>
-
-                    </article>
-
-
                 </section>
 
                 <section id="pricing">

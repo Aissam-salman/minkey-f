@@ -6,9 +6,19 @@ type RegisterUser = {
     email: string,
     password: string,
 }
+
+type LoginUser = {
+    email: string,
+    password: string,
+}
+
 class UserService {
-    async register(newUser: RegisterUser){
+    async register(newUser: RegisterUser) {
         return useAxios.post("/auth/register", newUser)
+    }
+
+    async login(user: LoginUser) {
+        return useAxios.post("/auth/login", user)
     }
 }
 
