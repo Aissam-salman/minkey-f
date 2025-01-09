@@ -8,16 +8,16 @@ const features = [
         description: "Les entrepreneurs manquent de soutien pour prendre des décisions stratégiques.",
         href: "/",
         cta: "",
-        background: <img className="absolute -right-20 -top-20 opacity-60" alt={''}/>,
+        background: <img src={"/pb3.jpg"} className="absolute -right-20 -top-20 opacity-60" alt={''}/>,
         className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
     },
     {
         Icon: InputIcon,
         name: " Trouver un réseau d'entrepreneurs solide",
         description: "   Les entrepreneurs ont du mal à se connecter avec d'autres professionnels pertinents.",
-        href: "/signin",
+        href: "/",
         cta: "",
-        background: <img className="absolute -right-20 -top-20 opacity-60" alt={''}/>,
+        background: <img src={"/pb1.jpg"} className="absolute -right-20 -top-20 opacity-60" alt={''}/>,
         className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
     },
     {
@@ -26,7 +26,7 @@ const features = [
         description: "Difficile de trouver des prestataires compétents pour chaque besoin.",
         href: "/",
         cta: "",
-        background: <img className="absolute -right-20 -top-20 opacity-60" alt={''}/>,
+        background: <img src={"/pb2.jpg"} className="absolute opacity-40" alt={''}/>,
         className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
     },
     {
@@ -35,7 +35,7 @@ const features = [
         description: "Accéder à des ressources de qualité pour se former à entreprendre est un challenge.",
         href: "/",
         cta: "",
-        background: <img className="absolute -right-20 -top-20 opacity-60" alt={''}/>,
+        background: <img src={"/pb4.jpg"} className="absolute -right-20 -top-20 opacity-40" alt={''}/>,
         className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2",
     },
     {
@@ -45,7 +45,7 @@ const features = [
             "Les entrepreneurs ont du mal à se faire connaître.",
         href: "/",
         cta: "",
-        background: <img className="absolute -right-20 -top-20 opacity-60" alt={''}/>,
+        background: <img src={"/pb5.jpg"} className="absolute -right-20 -top-20 opacity-60" alt={''}/>,
         className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4",
     },
 ];
