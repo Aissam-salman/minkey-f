@@ -7,11 +7,12 @@ import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import userService from "@/api/user.service";
+import userService from "@/service/user.service";
 import {useToast} from "@/hooks/use-toast";
 import {ToastAction} from "@/components/ui/toast";
 import {useRouter} from "next/navigation";
 import {useUserStore} from "@/stores/use-user-store";
+import {stripe} from "@/lib/stripe";
 
 
 const UserSchema = z.object({
@@ -19,15 +20,15 @@ const UserSchema = z.object({
     lastname: z.string().min(2).max(30),
     email: z.string().email(),
     password: z.string().min(6).max(30),
+    stripeCustomerId: z.string(),
 })
 
 export function SigninForm({
                                className
                            }: React.ComponentPropsWithoutRef<"form">) {
-    const { toast } = useToast()
+    const {toast} = useToast()
     const router = useRouter()
-    const { token, setToken } = useUserStore();
-
+    const {token, setToken} = useUserStore();
 
 
     const form = useForm<z.infer<typeof UserSchema>>({
@@ -37,12 +38,20 @@ export function SigninForm({
             lastname: "",
             email: "",
             password: "",
+            stripeCustomerId: "",
         },
     })
+
     async function onSubmit(values: z.infer<typeof UserSchema>) {
+        const stripeCustomer = await stripe.customers.create({
+            email: values.email,
+            name: values.firstname,
+        })
+
+        values["stripeCustomerId"] = stripeCustomer.id;
 
         try {
-           const resp = await userService.register(values);
+            const resp = await userService.register(values);
 
             if (resp.data.token) {
                 setToken(resp.data.token);
@@ -50,6 +59,8 @@ export function SigninForm({
                     title: "Sucessfully registered",
                     description: resp.data.token,
                 })
+
+
                 router.push("/dashboard")
             }
 
@@ -58,7 +69,7 @@ export function SigninForm({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
-                action: <ToastAction onClick={()=> router.refresh()} altText="Try again">Try again</ToastAction>,
+                action: <ToastAction onClick={() => router.refresh()} altText="Try again">Try again</ToastAction>,
             })
         }
     }

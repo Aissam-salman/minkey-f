@@ -5,6 +5,7 @@ type RegisterUser = {
     lastname: string,
     email: string,
     password: string,
+    stripeCustomerId: string,
 }
 
 type LoginUser = {
@@ -19,6 +20,14 @@ class UserService {
 
     async login(user: LoginUser) {
         return useAxios.post("/auth/login", user)
+    }
+
+    async getUser(token: string) {
+        return useAxios.get(`/users/profile`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
     }
 }
 

@@ -10,7 +10,7 @@ import {useRouter} from "next/navigation";
 import {useUserStore} from "@/stores/use-user-store";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import userService from "@/api/user.service";
+import userService from "@/service/user.service";
 import {ToastAction} from "@/components/ui/toast";
 import {useEffect} from "react";
 
