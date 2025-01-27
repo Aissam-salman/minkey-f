@@ -1,20 +1,32 @@
 "use client"
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {planStore} from "@/stores/plan-store";
 import {useRouter} from "next/navigation";
+import {cn} from "@/lib/utils";
 
-const Pricing = () => {
+const PricingChoice = () => {
+    const {planChoice, setPlanChoice} = planStore();
     const [isChecked, setIsChecked] = useState(true);
 
     const router = useRouter();
 
+    useEffect(() => {
+        if (planChoice === 5 || planChoice === 4) {
+            setPlanChoice(isChecked ? 5 : 4);
+        } else if (planChoice === 2 || planChoice === 3) {
+            setPlanChoice(isChecked ? 3 : 2);
+        }
+    }, [isChecked, planChoice]);
+
     const toggleSwitch = () => {
-        setIsChecked((prev) => !prev);
+        setIsChecked(prev => !prev);
     };
 
+    const handlePlanSelected = (planNumber: number) => {
+        setPlanChoice(planNumber);
+    };
 
-    const handlePlanSelected = () => {
-        router.push("/pay");
-    }
+    console.log(planChoice);
 
     return (
         <section id="pricing">
@@ -55,7 +67,11 @@ const Pricing = () => {
                 <div
                     className="mx-auto grid w-full justify-center sm:grid-cols-2 lg:grid-cols-3 flex-col gap-4">
                     <div
-                        className="relative flex max-w-[400px] flex-col gap-8 rounded-2xl border p-4 text-black dark:text-white overflow-hidden">
+                        className={cn("relative flex max-w-[400px] flex-col gap-8 rounded-2xl border p-4 text-black" +
+                            "dark:text-white overflow-hidden",
+                            (planChoice == 1) ? "border-2 border-[var(--color-one)]" +
+                                " dark:border-[var(--color-one)]" : ""
+                        )}>
                         <div className="flex items-center">
                             <div className="ml-4">
                                 <h2 className="text-base font-semibold leading-7">Free</h2>
@@ -65,17 +81,27 @@ const Pricing = () => {
                             </div>
                         </div>
                         <div className="flex flex-row gap-1">
-                                    <span className="text-4xl font-bold text-black dark:text-white">
-                                        €0
-                                    </span>
+                            <span className="text-4xl font-bold text-black dark:text-white">
+                                €0
+                            </span>
                         </div>
                         <button
-                            onClick={handlePlanSelected}
-                            className="inline-flex items-center justify-center whitespace-nowrap rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 group relative w-full gap-2 overflow-hidden text-lg font-semibold tracking-tighter transform-gpu ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-2">
-                                    <span
-                                        className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black">
-                                    </span>
-                            <p>Souscrire</p>
+                            onClick={() => handlePlanSelected(1)}
+                            className={cn(
+                                "inline-flex items-center justify-center whitespace-nowrap rounded-md " +
+                                "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring " +
+                                "disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 group relative " +
+                                "w-full gap-2 overflow-hidden text-lg font-semibold tracking-tighter transform-gpu " +
+                                "ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-2",
+                                planChoice == 1 ? "bg-white border text-green-600 shadow hover:bg-primary/90"
+                                    : "bg-primary text-primary-foreground dark:text-white shadow hover:bg-input/80"
+                            )}
+                        >
+                            <span
+                                className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black"></span>
+                            <p>
+                                Choisir
+                            </p>
                         </button>
                         <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0"/>
                         <ul className="flex flex-col gap-2 font-normal">
@@ -102,7 +128,9 @@ const Pricing = () => {
                         </ul>
                     </div>
                     <div
-                        className="relative flex max-w-[400px] flex-col gap-8 rounded-2xl p-4 text-black dark:text-white overflow-hidden border-2 border-[var(--color-one)] dark:border-[var(--color-one)]">
+                        className={cn("relative flex max-w-[400px] flex-col gap-8 rounded-2xl p-4 text-black" +
+                            " dark:text-white overflow-hidden  border",
+                            (planChoice == 3 || planChoice == 2) ? "border-2  border-[var(--color-one)] dark:border-[var(--color-one)]" : "")}>
                         <div className="flex items-center">
                             <div className="ml-4">
                                 <h2 className="text-base font-semibold leading-7">
@@ -122,19 +150,22 @@ const Pricing = () => {
                                     </span>
                         </div>
                         <button
-                            onClick={handlePlanSelected}
-                            className="inline-flex items-center justify-center whitespace-nowrap rounded-md
-                                focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring
-                                disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground
-                                shadow hover:bg-primary/90 h-9 px-4 py-2 group relative w-full gap-2 overflow-hidden
-                                text-lg font-semibold tracking-tighter transform-gpu ring-offset-current transition-all
-                                duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-2">
-                                    <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12
-                                    transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out
-                                    group-hover:-translate-x-96 dark:bg-black">
-                                    </span>
+                            onClick={() => handlePlanSelected(isChecked ? 3 : 2)}
+                            className={cn(
+                                "inline-flex items-center justify-center whitespace-nowrap rounded-md " +
+                                "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring " +
+                                "disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 group relative " +
+                                "w-full gap-2 overflow-hidden text-lg font-semibold tracking-tighter transform-gpu " +
+                                "ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-2",
+                                (planChoice == 3 || planChoice == 2)
+                                    ? "bg-white border text-green-600 shadow hover:bg-primary/90"
+                                    : "bg-primary text-primary-foreground dark:text-white shadow hover:bg-input/80"
+                            )}
+                        >
+                            <span
+                                className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black"></span>
                             <p>
-                                Souscrire
+                                Choisir
                             </p>
                         </button>
                         <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0"/>
@@ -204,7 +235,10 @@ const Pricing = () => {
                         </ul>
                     </div>
                     <div
-                        className="relative flex max-w-[400px] flex-col gap-8 rounded-2xl border p-4 text-black dark:text-white overflow-hidden">
+                        className={cn("relative flex max-w-[400px] flex-col gap-8 rounded-2xl border p-4 text-black" +
+                            " dark:text-white overflow-hidden",
+                            (planChoice == 4 || planChoice == 5) ? "border-2  border-[var(--color-one)] dark:border-[var(--color-one)]" : ""
+                        )}>
                         <div className="flex items-center">
                             <div className="ml-4">
                                 <h2 className="text-base font-semibold leading-7">
@@ -224,21 +258,25 @@ const Pricing = () => {
                                     </span>
                         </div>
                         <button
-                            onClick={handlePlanSelected}
-                            className="inline-flex items-center justify-center whitespace-nowrap rounded-md
-                                focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring
-                                disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground
-                                shadow hover:bg-primary/90 h-9 px-4 py-2 group relative w-full gap-2 overflow-hidden
-                                text-lg font-semibold tracking-tighter transform-gpu ring-offset-current transition-all
-                                duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-2">
-                                    <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12
-                                    transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out
-                                    group-hover:-translate-x-96 dark:bg-black">
-                                    </span>
+                            onClick={() => handlePlanSelected(isChecked ? 5 : 4)}
+                            className={cn(
+                                "inline-flex items-center justify-center whitespace-nowrap rounded-md " +
+                                "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring " +
+                                "disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 group relative " +
+                                "w-full gap-2 overflow-hidden text-lg font-semibold tracking-tighter transform-gpu " +
+                                "ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-2",
+                                planChoice == 5 || planChoice == 4
+                                    ? "bg-white border text-green-600 shadow hover:bg-primary/90"
+                                    : "bg-primary text-primary-foreground dark:text-white shadow hover:bg-input/80"
+                            )}
+                        >
+                            <span
+                                className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black"></span>
                             <p>
-                                Souscrire
+                                Choisir
                             </p>
                         </button>
+
                         <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0"/>
                         <ul className="flex flex-col gap-2 font-normal">
                             <li className="flex items-center gap-3 text-xs font-medium text-black dark:text-white">
@@ -369,4 +407,4 @@ const Pricing = () => {
     )
 }
 
-export default Pricing;
+export default PricingChoice;

@@ -1,9 +1,12 @@
 "use client"
 import {NavBar} from "@/components/nav-bar";
+
 import {RainbowButton} from "@/components/ui/rainbow-button";
+import {useRouter} from "next/navigation";
 
 
 export default function CancelPage() {
+    const router = useRouter();
 
     return (
         <div className="flex flex-col p-6 gap-8">
@@ -17,14 +20,14 @@ export default function CancelPage() {
                         <p className="text-lg text-gray-700 mb-6">
                             Reessayer ulterieurement ou acceder directement a l'app.
                         </p>
-                        <div className={"flex flex-row items-center justify-center"}>
-                            <RainbowButton>
+                        <div className={"flex flex-row items-center justify-center gap-5"}>
+                            <RainbowButton onClick={() => router.push("/pay")}>
                                 Reessayer
                             </RainbowButton>
+                            <RainbowButton onClick={() => router.push("/dashboard")}>
+                                Go to Dashboard
+                            </RainbowButton>
                         </div>
-                        <RainbowButton>
-                            Go to Dashboard
-                        </RainbowButton>
                     </div>
                 </div>
             </div>

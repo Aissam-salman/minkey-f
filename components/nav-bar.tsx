@@ -2,7 +2,7 @@
 import * as React from 'react';
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
-import {useUserStore} from "@/stores/use-user-store";
+import {userStore} from "@/stores/user-store";
 import {LogOutIcon, MenuIcon} from "lucide-react";
 import {useIsMobile} from "@/hooks/use-mobile";
 import {
@@ -17,7 +17,7 @@ import LogoSVG from "@/components/logo-svg";
 type Props = {};
 export const NavBar = (props: Props) => {
     const router = useRouter();
-    const {token, clearToken} = useUserStore();
+    const {token, clearToken} = userStore();
 
     const logout = () => {
         clearToken();

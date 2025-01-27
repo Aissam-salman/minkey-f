@@ -1,25 +1,36 @@
 "use client"
 import {NavBar} from "@/components/nav-bar";
 import {Button} from "@/components/ui/button";
-import {useUserStore} from "@/stores/use-user-store";
+import {userStore} from "@/stores/user-store";
 import userService from "@/service/user.service";
+import {planStore} from "@/stores/plan-store";
+import {useRouter} from "next/navigation";
+import PricingChoice from "@/components/pricing-choice";
 
 
 export default function PayPage() {
 
-    const {token} = useUserStore();
-    console.log("token: ", token);
+    const {token} = userStore();
+    const {planChoice} = planStore();
+
+    const router = useRouter();
+
 
     const handleStripe = async () => {
         try {
             const resp = await userService.getUser(token);
 
             const customerId = resp.data.stripeCustId ?? null;
+            if (planChoice == 1) {
+                router.push("/dashboard");
+                return;
+            }
+
 
             const response = await fetch("/api/stripe-session", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({customerId}),
+                body: JSON.stringify({customerId, planNumber: planChoice}),
             });
 
             if (!response.ok) {
@@ -29,7 +40,7 @@ export default function PayPage() {
             const data = await response.json();
 
             if (data.url) {
-                window.location.href = data.url; // Redirige l'utilisateur
+                window.location.href = data.url;
             } else {
                 throw new Error("Stripe session URL not found.");
             }
@@ -41,7 +52,8 @@ export default function PayPage() {
     return (
         <div className="flex flex-col p-6 gap-8">
             <NavBar/>
-            <div className="flex flex-1 items-center justify-center">
+            <div className="flex flex-col flex-1 items-center justify-center">
+                <PricingChoice/>
                 <div className="w-full max-w-lg mx-auto flex flex-col gap-8">
                     <Button onClick={handleStripe}>
                         Abonne-toi

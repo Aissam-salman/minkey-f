@@ -1,4 +1,3 @@
-
 import {create} from "zustand";
 import {createJSONStorage, persist} from "zustand/middleware";
 
@@ -8,7 +7,7 @@ interface UserState {
     clearToken: () => void,
 }
 
-export const useUserStore = create<
+export const userStore = create<
     UserState,
     [
         ['zustand/persist', UserState],
@@ -23,5 +22,5 @@ export const useUserStore = create<
         {
             name: "token",
             storage: createJSONStorage(() => localStorage),
-        }
-))
+        },
+    ))

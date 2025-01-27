@@ -4,16 +4,16 @@ import {BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles,} from "l
 
 import {Avatar, AvatarFallback, AvatarImage,} from "@/components/ui/avatar"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,} from "@/components/ui/sidebar"
-import {useUserStore} from "@/stores/use-user-store";
+import {userStore} from "@/stores/user-store";
 import {useRouter} from "next/navigation";
 
 export function NavUser({
@@ -27,7 +27,7 @@ export function NavUser({
 }) {
     const {isMobile} = useSidebar()
     const router = useRouter();
-    const {clearToken} = useUserStore();
+    const {clearToken} = userStore();
 
     const logout = () => {
         clearToken();

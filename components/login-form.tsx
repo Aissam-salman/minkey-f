@@ -7,7 +7,7 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import {z} from "zod";
 import {useToast} from "@/hooks/use-toast";
 import {useRouter} from "next/navigation";
-import {useUserStore} from "@/stores/use-user-store";
+import {userStore} from "@/stores/user-store";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import userService from "@/service/user.service";
@@ -27,7 +27,7 @@ export function LoginForm({
 
     const {toast} = useToast()
     const router = useRouter()
-    const {token, setToken} = useUserStore();
+    const {token, setToken} = userStore();
     useEffect(() => {
         if (token) {
             setTimeout(() => router.push("/dashboard"), 2000)
