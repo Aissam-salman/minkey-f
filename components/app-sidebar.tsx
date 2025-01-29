@@ -1,49 +1,29 @@
 "use client"
 
 import * as React from "react"
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
+import {useEffect} from "react"
+import {BookOpen, Bot, Frame, Map, PieChart, Settings2, SquareTerminal,} from "lucide-react"
 
 import {NavMain} from "@/components/nav-main"
 import {NavProjects} from "@/components/nav-projects"
 import {NavUser} from "@/components/nav-user"
 import {TeamSwitcher} from "@/components/team-switcher"
 import {Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail,} from "@/components/ui/sidebar"
+import userService from "@/service/user.service";
+import {userStore} from "@/stores/user-store";
 // TODO: fetch user info with avatar
 // TODO: define how to organise sidebar
+
+
 // This is sample data.
 const data = {
-    user: {
-        name: "shadcn",
-        email: "m@example.com",
-        avatar: "/avatars/shadcn.jpg",
-    },
+
     teams: [
         {
-            name: "Acme Inc",
-            logo: GalleryVerticalEnd,
-            plan: "Enterprise",
+            name: "Minkey",
+            plan: "La jungle",
         },
-        {
-            name: "Acme Corp.",
-            logo: AudioWaveform,
-            plan: "Startup",
-        },
-        {
-            name: "Evil Corp.",
-            logo: Command,
-            plan: "Free",
-        },
+
     ],
     navMain: [
         {
@@ -152,6 +132,42 @@ const data = {
 }
 
 export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
+
+    const [user, setUser] = React.useState({
+            name: "unknown",
+            email: "unknown@example.com",
+            avatar: "https://api.dicebear.com/9.x/fun-emoji/svg?seed=Brian"
+        }
+    );
+
+    const {token} = userStore();
+
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const resp = await userService.getUser(token);
+                const _user = resp.data;
+
+                setUser({
+                    name: _user.username,
+                    email: _user.email,
+                    avatar: _user.photoUrl ?? "https://api.dicebear.com/9.x/fun-emoji/svg?seed=Brian",
+                });
+            } catch (err) {
+                console.error(err);
+                setUser({
+                    name: "unknown",
+                    email: "unknown@example.com",
+                    avatar: "https://api.dicebear.com/9.x/fun-emoji/svg?seed=Brian",
+                });
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
@@ -162,7 +178,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                 <NavProjects projects={data.projects}/>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={data.user}/>
+                <NavUser user={user}/>
             </SidebarFooter>
             <SidebarRail/>
         </Sidebar>

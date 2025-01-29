@@ -1,17 +1,5 @@
 import useAxios from "@/hooks/use-axios";
-
-type RegisterUser = {
-    firstname: string,
-    lastname: string,
-    email: string,
-    password: string,
-    stripeCustomerId: string,
-}
-
-type LoginUser = {
-    email: string,
-    password: string,
-}
+import {LoginUser, RegisterUser} from "@/types/user";
 
 class UserService {
     async register(newUser: RegisterUser) {
@@ -28,6 +16,10 @@ class UserService {
                 Authorization: `Bearer ${token}`
             }
         });
+    }
+
+    async uploadProfileImage() {
+        return useAxios.post(`/users/upload`, {})
     }
 }
 
