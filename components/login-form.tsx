@@ -7,7 +7,6 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import {z} from "zod";
 import {useToast} from "@/hooks/use-toast";
 import {useRouter} from "next/navigation";
-import {userStore} from "@/stores/user-store";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import userService from "@/service/user.service";
@@ -27,7 +26,9 @@ export function LoginForm({
 
     const {toast} = useToast()
     const router = useRouter()
-    const {token, setToken} = userStore();
+    const token = localStorage.getItem("accessToken");
+
+
     useEffect(() => {
         if (token) {
             setTimeout(() => router.push("/dashboard"), 2000)
@@ -49,7 +50,7 @@ export function LoginForm({
             const resp = await userService.login(values);
 
             if (resp.data.token) {
-                setToken(resp.data.token);
+                localStorage.setItem("accessToken", resp.data.token);
                 toast({
                     title: "Sucessfully login",
                 })
@@ -57,6 +58,7 @@ export function LoginForm({
             }
 
         } catch (error) {
+            console.log(error)
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong.",

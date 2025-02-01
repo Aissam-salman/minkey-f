@@ -10,7 +10,7 @@ import {NavUser} from "@/components/nav-user"
 import {TeamSwitcher} from "@/components/team-switcher"
 import {Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail,} from "@/components/ui/sidebar"
 import userService from "@/service/user.service";
-import {userStore} from "@/stores/user-store";
+import {useRouter} from "next/navigation";
 // TODO: fetch user info with avatar
 // TODO: define how to organise sidebar
 
@@ -140,13 +140,18 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
         }
     );
 
-    const {token} = userStore();
+    const router = useRouter();
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+        router.push("/login");
+    }
 
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const resp = await userService.getUser(token);
+                const resp = await userService.getUser(token!);
                 const _user = resp.data;
 
                 setUser({

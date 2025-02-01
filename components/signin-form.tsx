@@ -11,7 +11,6 @@ import userService from "@/service/user.service";
 import {useToast} from "@/hooks/use-toast";
 import {ToastAction} from "@/components/ui/toast";
 import {useRouter} from "next/navigation";
-import {userStore} from "@/stores/user-store";
 import {stripe} from "@/lib/stripe";
 
 
@@ -28,7 +27,6 @@ export function SigninForm({
                            }: React.ComponentPropsWithoutRef<"form">) {
     const {toast} = useToast()
     const router = useRouter()
-    const {token, setToken} = userStore();
 
 
     const form = useForm<z.infer<typeof UserSchema>>({
@@ -54,7 +52,7 @@ export function SigninForm({
             const resp = await userService.register(values);
 
             if (resp.data.token) {
-                setToken(resp.data.token);
+                localStorage.setItem("accessToken", resp.data.token);
                 toast({
                     title: "Sucessfully registered",
                     description: resp.data.token,
