@@ -1,17 +1,17 @@
-import useAxios from "@/hooks/use-axios";
 import {LoginUser, RegisterUser} from "@/types/user";
+import axiosInstance from "@/hooks/use-axios";
 
 class UserService {
     async register(newUser: RegisterUser) {
-        return useAxios.post("/auth/register", newUser)
+        return axiosInstance.post("/auth/register", newUser)
     }
 
     async login(user: LoginUser) {
-        return useAxios.post("/auth/login", user)
+        return axiosInstance.post("/auth/login", user)
     }
 
     async getUser(token: string) {
-        return useAxios.get(`/users/profile`, {
+        return axiosInstance.get(`/users/profile`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -19,7 +19,7 @@ class UserService {
     }
 
     async uploadProfileImage() {
-        return useAxios.post(`/users/upload`, {})
+        return axiosInstance.post(`/users/upload`, {})
     }
 }
 

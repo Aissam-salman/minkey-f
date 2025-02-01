@@ -1,6 +1,6 @@
 "use client"
 
-import {BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles,} from "lucide-react"
+import {Bell, ChevronsUpDown, CreditCard, LogOut,} from "lucide-react"
 
 import {Avatar, AvatarFallback, AvatarImage,} from "@/components/ui/avatar"
 import {
@@ -13,8 +13,9 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,} from "@/components/ui/sidebar"
-import {userStore} from "@/stores/user-store";
 import {useRouter} from "next/navigation";
+import {AvatarIcon} from "@radix-ui/react-icons";
+
 
 export function NavUser({
                             user,
@@ -27,10 +28,9 @@ export function NavUser({
 }) {
     const {isMobile} = useSidebar()
     const router = useRouter();
-    const {clearToken} = userStore();
 
     const logout = () => {
-        clearToken();
+        localStorage.removeItem("accessToken");
         router.push("/");
     }
 
@@ -74,20 +74,13 @@ export function NavUser({
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator/>
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <Sparkles/>
-                                Upgrade to Pro
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator/>
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <BadgeCheck/>
-                                Account
+                            <DropdownMenuItem onClick={() => router.push("/profile")}>
+                                <AvatarIcon/>
+                                Mon profile
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <CreditCard/>
-                                Billing
+                                Plan
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <Bell/>
