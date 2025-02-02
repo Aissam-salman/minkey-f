@@ -18,3 +18,11 @@ export type UserProfile = {
     photoUrl: string,
     plan: string,
 }
+
+export type UpdateUser = {
+    firstname: string,
+    lastname: string,
+    email: string,
+    bio: string,
+    photoUrl: string,
+}

@@ -15,23 +15,26 @@ import {
 } from "@/components/ui/breadcrumb";
 
 interface Profile {
-    username: string
+    firstname: string
+    lastname: string
     email: string
-    avatar: string
+    bio: string
+    photoUrl: string
 }
 
 export default function ProfileEditPage() {
     const [profile, setProfile] = useState<Profile | null>(null)
     const [isLoading, setIsLoading] = useState(true)
-    const token = localStorage.getItem("accessToken");
+
 
     useEffect(() => {
         async function fetchProfile() {
             try {
-                const response = await userService.getUser(token!);
+                const response = await userService.getUser();
                 if (!response.data) {
                     throw new Error("Failed to fetch profile")
                 }
+                console.log(response.data);
 
                 setProfile(response.data)
             } catch (error) {
@@ -51,6 +54,7 @@ export default function ProfileEditPage() {
     if (!profile) {
         return <div>Error loading profile</div>
     }
+
 
     return (
         <SidebarProvider>
@@ -80,6 +84,7 @@ export default function ProfileEditPage() {
                 </header>
                 <div className="container mx-auto p-10">
                     <h1 className="text-2xl font-bold mb-5">Edit Profile</h1>
+
                     <ProfileForm profile={profile}/>
                 </div>
             </SidebarInset>

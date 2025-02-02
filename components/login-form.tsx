@@ -11,7 +11,6 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import userService from "@/service/user.service";
 import {ToastAction} from "@/components/ui/toast";
-import {useEffect} from "react";
 
 
 const LoginSchema = z.object({
@@ -26,14 +25,7 @@ export function LoginForm({
 
     const {toast} = useToast()
     const router = useRouter()
-    const token = localStorage.getItem("accessToken");
 
-
-    useEffect(() => {
-        if (token) {
-            setTimeout(() => router.push("/dashboard"), 2000)
-        }
-    })
 
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
@@ -49,8 +41,7 @@ export function LoginForm({
         try {
             const resp = await userService.login(values);
 
-            if (resp.data.token) {
-                localStorage.setItem("accessToken", resp.data.token);
+            if (resp.data) {
                 toast({
                     title: "Sucessfully login",
                 })

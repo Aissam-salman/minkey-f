@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import {useEffect} from "react"
-import {BookOpen, Bot, Frame, Map, PieChart, Settings2, SquareTerminal,} from "lucide-react"
+import {Bot, Frame, SquareM,} from "lucide-react"
 
 import {NavMain} from "@/components/nav-main"
 import {NavProjects} from "@/components/nav-projects"
@@ -11,9 +11,6 @@ import {TeamSwitcher} from "@/components/team-switcher"
 import {Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail,} from "@/components/ui/sidebar"
 import userService from "@/service/user.service";
 import {useRouter} from "next/navigation";
-// TODO: fetch user info with avatar
-// TODO: define how to organise sidebar
-
 
 // This is sample data.
 const data = {
@@ -27,11 +24,12 @@ const data = {
     ],
     navMain: [
         {
-            title: "Playground",
+            title: "Minkey Gang 🐒",
             url: "#",
-            icon: SquareTerminal,
+            icon: SquareM,
             isActive: true,
             items: [
+                //TODO: get list of group with title & email
                 {
                     title: "History",
                     url: "#",
@@ -47,7 +45,7 @@ const data = {
             ],
         },
         {
-            title: "Models",
+            title: "Minkeyline",
             url: "#",
             icon: Bot,
             items: [
@@ -65,68 +63,12 @@ const data = {
                 },
             ],
         },
-        {
-            title: "Documentation",
-            url: "#",
-            icon: BookOpen,
-            items: [
-                {
-                    title: "Introduction",
-                    url: "#",
-                },
-                {
-                    title: "Get Started",
-                    url: "#",
-                },
-                {
-                    title: "Tutorials",
-                    url: "#",
-                },
-                {
-                    title: "Changelog",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Settings",
-            url: "#",
-            icon: Settings2,
-            items: [
-                {
-                    title: "General",
-                    url: "#",
-                },
-                {
-                    title: "Team",
-                    url: "#",
-                },
-                {
-                    title: "Billing",
-                    url: "#",
-                },
-                {
-                    title: "Limits",
-                    url: "#",
-                },
-            ],
-        },
     ],
     projects: [
         {
-            name: "Design Engineering",
+            name: "Minkeydvisor",
             url: "#",
             icon: Frame,
-        },
-        {
-            name: "Sales & Marketing",
-            url: "#",
-            icon: PieChart,
-        },
-        {
-            name: "Travel",
-            url: "#",
-            icon: Map,
         },
     ],
 }
@@ -141,17 +83,11 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
     );
 
     const router = useRouter();
-    const token = localStorage.getItem("accessToken");
-
-    if (!token) {
-        router.push("/login");
-    }
-
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const resp = await userService.getUser(token!);
+                const resp = await userService.getUser();
                 const _user = resp.data;
 
                 setUser({

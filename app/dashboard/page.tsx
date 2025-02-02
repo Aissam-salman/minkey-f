@@ -3,17 +3,8 @@ import {AppSidebar} from "@/components/app-sidebar"
 import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList,} from "@/components/ui/breadcrumb"
 import {Separator} from "@/components/ui/separator"
 import {SidebarInset, SidebarProvider, SidebarTrigger,} from "@/components/ui/sidebar"
-import {useRouter} from "next/navigation";
 
 export default function Page() {
-
-    const token = localStorage.getItem("accessToken");
-    const router = useRouter();
-
-    if (!token) {
-        router.push("/login");
-    }
-
     return (
         <SidebarProvider>
             <AppSidebar/>

@@ -12,14 +12,15 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import LogoSVG from "@/components/logo-svg";
+import axiosInstance from "@/hooks/use-axios";
 
 type Props = {};
 export const NavBar = (props: Props) => {
     const router = useRouter();
     const token = localStorage.getItem("accessToken");
 
-    const logout = () => {
-        localStorage.removeItem("accessToken");
+    const logout = async () => {
+        await axiosInstance.post("/auth/logout");
         router.push("/");
     }
 
