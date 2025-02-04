@@ -15,6 +15,7 @@ import {
 import {SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,} from "@/components/ui/sidebar"
 import {useRouter} from "next/navigation";
 import {AvatarIcon} from "@radix-ui/react-icons";
+import {userStore} from "@/stores/user-store";
 
 
 export function NavUser({
@@ -28,9 +29,12 @@ export function NavUser({
 }) {
     const {isMobile} = useSidebar()
     const router = useRouter();
+    const {setIsConnected} = userStore();
+
 
     const logout = () => {
         localStorage.removeItem("accessToken");
+        setIsConnected(false);
         router.push("/");
     }
 
@@ -78,7 +82,7 @@ export function NavUser({
                                 <AvatarIcon/>
                                 Mon profile
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => router.push("/profile/plan")}>
                                 <CreditCard/>
                                 Plan
                             </DropdownMenuItem>

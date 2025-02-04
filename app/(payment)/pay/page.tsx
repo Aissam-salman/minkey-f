@@ -1,7 +1,6 @@
 "use client"
 import {NavBar} from "@/components/nav-bar";
 import {Button} from "@/components/ui/button";
-import {userStore} from "@/stores/user-store";
 import userService from "@/service/user.service";
 import {planStore} from "@/stores/plan-store";
 import {useRouter} from "next/navigation";
@@ -10,7 +9,6 @@ import PricingChoice from "@/components/pricing-choice";
 
 export default function PayPage() {
 
-    const {token} = userStore();
     const {planChoice} = planStore();
 
     const router = useRouter();
@@ -18,7 +16,7 @@ export default function PayPage() {
 
     const handleStripe = async () => {
         try {
-            const resp = await userService.getUser(token);
+            const resp = await userService.getUser();
 
             const customerId = resp.data.stripeCustId ?? null;
             if (planChoice == 1) {

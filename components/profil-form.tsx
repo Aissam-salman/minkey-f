@@ -4,6 +4,7 @@ import {useState} from "react"
 import {zodResolver} from "@hookform/resolvers/zod"
 import {useForm} from "react-hook-form"
 import * as z from "zod"
+import {UserProfile} from "@/types/user";
 
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
@@ -26,16 +27,18 @@ const profileSchema = z.object({
     email: z.string().email({
         message: "Please enter a valid email address.",
     }),
+    stripeCustId: z.string().optional(),
     bio: z.string().min(10, {
         message: "Bio must be at least 10 characters.",
     }),
-    photoUrl: z.string().url()
+    photoUrl: z.string().url(),
+    plan: z.string().optional(),
 })
 
 type ProfileFormValues = z.infer<typeof profileSchema>
 
 interface ProfileFormProps {
-    profile: ProfileFormValues
+    profile: ProfileFormValues | UserProfile
 }
 
 export function ProfileForm({profile}: ProfileFormProps) {
@@ -94,6 +97,10 @@ export function ProfileForm({profile}: ProfileFormProps) {
             console.error("Erreur lors du téléversement de l'image :", error);
         }
     };
+
+    if (!profile || !profile.email) {
+        return <p>Chargement...</p>;
+    }
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

@@ -11,6 +11,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import userService from "@/service/user.service";
 import {ToastAction} from "@/components/ui/toast";
+import {userStore} from "@/stores/user-store";
 
 
 const LoginSchema = z.object({
@@ -25,6 +26,7 @@ export function LoginForm({
 
     const {toast} = useToast()
     const router = useRouter()
+    const {setIsConnected, setUser} = userStore();
 
 
     const form = useForm<z.infer<typeof LoginSchema>>({
@@ -45,11 +47,19 @@ export function LoginForm({
                 toast({
                     title: "Sucessfully login",
                 })
+
+                const _user = await userService.getUser();
+                if (_user.data) {
+                    setUser(_user.data);
+                }
+
+                setIsConnected(true);
                 router.push("/dashboard")
             }
 
         } catch (error) {
             console.log(error)
+            setIsConnected(false);
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong.",

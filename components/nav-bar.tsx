@@ -13,16 +13,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import LogoSVG from "@/components/logo-svg";
 import axiosInstance from "@/hooks/use-axios";
+import {userStore} from "@/stores/user-store";
 
 type Props = {};
 export const NavBar = (props: Props) => {
     const router = useRouter();
-    const token = localStorage.getItem("accessToken");
+
+    const {isConnected} = userStore();
 
     const logout = async () => {
         await axiosInstance.post("/auth/logout");
         router.push("/");
     }
+
 
     const isMobile = useIsMobile();
 
@@ -38,7 +41,7 @@ export const NavBar = (props: Props) => {
                     <DropdownMenu>
                         <DropdownMenuTrigger> <MenuIcon/></DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            {token ? (
+                            {isConnected ? (
                                 <>
                                     <DropdownMenuLabel
                                         onClick={() => router.push("dashboard")}>Dashboard</DropdownMenuLabel>
@@ -55,7 +58,7 @@ export const NavBar = (props: Props) => {
 
                 ) : <div className=" sm:flex items-center gap-3">
 
-                    {token ? (
+                    {isConnected ? (
                         <>
                             <Button onClick={() => router.push("dashboard")}>App</Button>
                             <Button variant={"outline"} onClick={logout}><LogOutIcon className={"w-6 h-6"}/></Button>

@@ -13,10 +13,12 @@ export type LoginUser = {
 export type UserProfile = {
     id: string,
     email: string,
-    username: string,
-    stripeCustId: string,
+    firstname: string,
+    lastname: string,
+    stripeCustId?: string,
+    bio: string,
     photoUrl: string,
-    plan: string,
+    plan?: string,
 }
 
 export type UpdateUser = {

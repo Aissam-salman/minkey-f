@@ -1,9 +1,12 @@
 "use client"
 import {NavBar} from "@/components/nav-bar";
 import {RainbowButton} from "@/components/ui/rainbow-button";
+import {useRouter} from "next/navigation";
 
 
 export default function SuccessPage() {
+
+    const router = useRouter();
 
     return (
         <div className="flex flex-col p-6 gap-8">
@@ -17,7 +20,7 @@ export default function SuccessPage() {
                         <p className="text-lg text-gray-700 mb-6">
                             Nous vous remercions de votre achat. Votre abonnement est maintenant actif.
                         </p>
-                        <RainbowButton>
+                        <RainbowButton onClick={() => router.push("/dashboard")}>
                             Go to Dashboard
                         </RainbowButton>
                     </div>

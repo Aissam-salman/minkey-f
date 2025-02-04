@@ -1,20 +1,18 @@
-"use client"
-import {AppSidebar} from "@/components/app-sidebar"
-import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList,} from "@/components/ui/breadcrumb"
-import {Separator} from "@/components/ui/separator"
-import {SidebarInset, SidebarProvider, SidebarTrigger,} from "@/components/ui/sidebar"
-import {userStore} from "@/stores/user-store";
-import {useEffect} from "react";
-import {fetchUser} from "@/hooks/use-user";
+import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
+import {AppSidebar} from "@/components/app-sidebar";
+import {Separator} from "@/components/ui/separator";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbSeparator
+} from "@/components/ui/breadcrumb";
+import {CurrentPlan} from "@/components/currentPlan";
 
-export default function Page() {
+type Props = {};
 
-    const {user, setUser} = userStore();
-
-    useEffect(() => {
-        fetchUser(user, setUser);
-    }, []);
-
+const Page = (props: Props) => {
     return (
         <SidebarProvider>
             <AppSidebar/>
@@ -31,19 +29,24 @@ export default function Page() {
                                         Accueil
                                     </BreadcrumbLink>
                                 </BreadcrumbItem>
+                                <BreadcrumbSeparator className="hidden md:block"/>
+                                <BreadcrumbItem className="hidden md:block">
+                                    <BreadcrumbLink href="/profile">
+                                        Profile
+                                    </BreadcrumbLink>
+                                </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
                     </div>
                 </header>
-                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                    <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                        <div className="aspect-video rounded-xl bg-muted/50"/>
-                        <div className="aspect-video rounded-xl bg-muted/50"/>
-                        <div className="aspect-video rounded-xl bg-muted/50"/>
-                    </div>
-                    <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min"/>
+                <div className="container mx-auto p-10">
+                    <h1 className="text-2xl font-bold mb-5">Votre Plan Actuel</h1>
+                    <CurrentPlan/>
                 </div>
             </SidebarInset>
         </SidebarProvider>
+
     )
-}
+};
+
+export default Page;

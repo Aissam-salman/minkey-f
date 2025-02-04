@@ -15,9 +15,9 @@ import Link from "next/link";
 
 export default function Page() {
 
-    const {token} = userStore();
+    const {isConnected} = userStore();
 
-    if (!token) {
+    if (!isConnected) {
         return <div>Please login...
             <Link href={"/login"}>Login</Link>
         </div>;
